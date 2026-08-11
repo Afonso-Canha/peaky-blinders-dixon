@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Peaky Blinders | Dixon — By Order</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;900&family=Oswald:wght@400;500;600;700&family=Crimson+Pro:wght@400;500;600&display=swap');
+
+:root{
+  --ink: #0f0d0b;
+  --panel: #1b1712;
+  --panel-2: #221d17;
+  --brass: #c9a227;
+  --brass-dim: #8a7020;
+  --rust: #8a3324;
+  --paper: #ece3ce;
+  --paper-dim: #a89f8c;
+  --line: #3a332a;
+}
+
+*{box-sizing:border-box; margin:0; padding:0;}
+
+html{scroll-behavior:smooth;}
+
+body{
+  background:
+    radial-gradient(ellipse 900px 600px at 15% -10%, rgba(201,162,39,0.08), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 100% 20%, rgba(138,51,36,0.06), transparent 60%),
+    var(--ink);
+  color: var(--paper);
+  font-family: 'Crimson Pro', serif;
+  font-size: 17px;
+  line-height: 1.65;
+  min-height:100vh;
+}
+
+/* smoke texture overlay */
+body::before{
+  content:"";
+  position:fixed; inset:0;
+  pointer-events:none;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.015), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(255,255,255,0.02), transparent 45%);
+  z-index:1;
+}
+
+a{color:var(--brass); text-decoration:none;}
+
+.eyebrow{
+  font-family:'Oswald', sans-serif;
+  font-weight:600;
+  letter-spacing:0.22em;
+  text-transform:uppercase;
+  font-size:12px;
+  color: var(--brass);
+}
+
+h1,h2,h3{
+  font-family:'Playfair Display', serif;
+  color: var(--paper);
+  letter-spacing:0.01em;
+}
+
+/* ===== layout shell ===== */
+.shell{
+  display:grid;
+  grid-template-columns: 260px 1fr;
+  max-width: 1240px;
+  margin: 0 auto;
+  position:relative;
+  z-index:2;
+}
+
+/* ===== sidebar ledger ===== */
+.ledger{
+  position:sticky; top:0;
+  height:100vh;
+  overflow-y:auto;
+  padding: 28px 18px 40px 28px;
+  border-right: 1px solid var(--line);
+  scrollbar-width: thin;
+  scrollbar-color: var(--brass-dim) transparent;
+}
+.ledger::-webkit-scrollbar{width:6px;}
+.ledger::-webkit-scrollbar-thumb{background:var(--brass-dim); border-radius:3px;}
+
+.ledger-brand{
+  display:flex; align-items:center; gap:10px;
+  margin-bottom: 30px;
+  padding-bottom:20px;
+  border-bottom: 1px solid var(--line);
+}
+.ledger-brand .badge{
+  width:38px; height:38px; border-radius:50%;
+  border:1.5px solid var(--brass);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Playfair Display', serif; font-weight:900; color:var(--brass);
+  font-size:16px; flex-shrink:0;
+}
+.ledger-brand div .name{
+  font-family:'Oswald', sans-serif; font-weight:600; letter-spacing:0.05em;
+  font-size:13px; color:var(--paper); text-transform:uppercase;
+}
+.ledger-brand div .sub{ font-size:11px; color:var(--paper-dim); font-family:'Oswald',sans-serif; letter-spacing:0.05em;}
+
+nav.toc{ display:flex; flex-direction:column; gap:2px; }
+nav.toc a{
+  font-family:'Oswald', sans-serif;
+  font-size:12.5px;
+  letter-spacing:0.04em;
+  color: var(--paper-dim);
+  padding: 7px 10px;
+  border-left: 2px solid transparent;
+  transition: all .15s ease;
+  display:flex; gap:8px; align-items:baseline;
+}
+nav.toc a .num{ color: var(--brass-dim); font-size:11px; width:18px; flex-shrink:0;}
+nav.toc a:hover{ color: var(--paper); border-left-color: var(--brass-dim); background: rgba(201,162,39,0.04);}
+nav.toc a.active{ color: var(--brass); border-left-color: var(--brass); background: rgba(201,162,39,0.06);}
+
+/* ===== main column ===== */
+main{ padding: 0 48px 100px 48px; }
+
+/* ===== hero ===== */
+.hero{
+  min-height: 78vh;
+  display:flex; flex-direction:column; justify-content:center;
+  border-bottom: 1px solid var(--line);
+  padding: 40px 0 60px 0;
+  position:relative;
+}
+.hero .stamp-ring{
+  position:absolute; top:36px; right:0;
+  width:130px; height:130px;
+  border:1.5px solid var(--rust);
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  transform: rotate(-14deg);
+  opacity:0.85;
+}
+.hero .stamp-ring .stamp-inner{
+  width:106px; height:106px;
+  border:1px solid var(--rust);
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  text-align:center;
+  font-family:'Oswald', sans-serif;
+  font-size:9.5px;
+  letter-spacing:0.14em;
+  color: var(--rust);
+  text-transform:uppercase;
+  padding: 10px;
+  line-height:1.5;
+}
+.hero .eyebrow{ margin-bottom:18px; }
+.hero h1{
+  font-size: clamp(48px, 7vw, 92px);
+  font-weight:900;
+  line-height: 0.98;
+  text-transform:uppercase;
+  max-width: 780px;
+}
+.hero h1 span{ color: var(--brass); font-style:italic; font-weight:700;}
+.hero .tagline{
+  margin-top:22px;
+  font-family:'Playfair Display', serif;
+  font-style: italic;
+  font-size: 21px;
+  color: var(--paper-dim);
+  max-width:560px;
+}
+.hero .lede{
+  margin-top: 26px;
+  max-width: 620px;
+  color: var(--paper-dim);
+  font-size:16.5px;
+}
+.chain-divider{
+  display:flex; align-items:center; gap:8px;
+  margin: 6px 0 8px 0;
+}
+.chain-divider .link{ width:5px; height:5px; border-radius:50%; background: var(--brass-dim);}
+.chain-divider .rule{ flex:1; height:1px; background: linear-gradient(90deg, var(--brass-dim), transparent);}
+
+/* ===== sections ===== */
+section.block{
+  padding: 64px 0;
+  border-bottom: 1px solid var(--line);
+  scroll-margin-top: 20px;
+}
+section.block:last-of-type{ border-bottom:none; }
+
+.block-head{ margin-bottom: 30px; max-width:720px; }
+.block-head .eyebrow{ margin-bottom:10px; }
+.block-head h2{ font-size: clamp(28px,3.4vw,38px); font-weight:700; }
+.block-head p.desc{ margin-top:12px; color:var(--paper-dim); font-size:16px; max-width:600px;}
+
+/* pillar grid (principios) */
+.pillars{
+  display:grid; grid-template-columns: repeat(3, 1fr); gap:14px;
+}
+.pillar{
+  background: var(--panel);
+  border:1px solid var(--line);
+  padding: 20px 18px;
+  border-radius: 2px;
+  position:relative;
+}
+.pillar .roman{
+  font-family:'Playfair Display', serif; font-weight:900; font-size:26px; color:var(--brass); opacity:0.5;
+}
+.pillar h3{ font-size:17px; margin: 8px 0 6px 0; font-family:'Oswald', sans-serif; text-transform:uppercase; letter-spacing:0.04em; font-weight:600; color:var(--paper);}
+.pillar p{ font-size:14.5px; color:var(--paper-dim); }
+
+/* hierarchy ladder */
+.ladder{ display:flex; flex-direction:column; gap:0; }
+.rank{
+  display:grid; grid-template-columns: 64px 200px 1fr;
+  align-items:center;
+  gap: 18px;
+  padding: 16px 0;
+  border-top:1px solid var(--line);
+}
+.rank:last-child{ border-bottom:1px solid var(--line); }
+.rank .icon{ font-size:26px; text-align:center; }
+.rank .title{
+  font-family:'Oswald', sans-serif; font-weight:600; letter-spacing:0.03em;
+  color: var(--brass); font-size:14.5px; text-transform:uppercase;
+}
+.rank .title small{ display:block; color:var(--paper-dim); font-weight:400; font-size:11.5px; letter-spacing:0.06em; margin-top:2px;}
+.rank .desc{ color: var(--paper-dim); font-size:15px; }
+.rank.lead .title{ color: var(--paper); }
+.rank.lead{ background: linear-gradient(90deg, rgba(201,162,39,0.05), transparent); }
+
+/* progression strip */
+.progression{
+  display:flex; align-items:center; flex-wrap:wrap; gap:10px;
+  margin-top: 30px;
+  padding: 20px;
+  background: var(--panel);
+  border:1px solid var(--line);
+}
+.progression .step{
+  font-family:'Oswald', sans-serif; font-size:13px; letter-spacing:0.04em;
+  color:var(--paper); padding:6px 14px; border:1px solid var(--brass-dim); text-transform:uppercase;
+}
+.progression .arrow{ color: var(--brass-dim); }
+
+/* recruitment steps */
+.steps{ display:flex; flex-direction:column; gap:0; counter-reset:step; }
+.step-row{
+  display:grid; grid-template-columns: 50px 1fr;
+  gap: 20px;
+  padding: 18px 0;
+  border-top: 1px solid var(--line);
+}
+.step-row:last-child{border-bottom:1px solid var(--line);}
+.step-row .n{
+  font-family:'Playfair Display', serif; font-size:24px; color:var(--brass-dim); font-weight:700;
+}
+.step-row h3{ font-family:'Oswald', sans-serif; font-size:15px; letter-spacing:0.04em; text-transform:uppercase; font-weight:600; color:var(--paper); margin-bottom:4px;}
+.step-row p{ color:var(--paper-dim); font-size:15px; }
+
+/* discipline cards */
+.discipline-grid{ display:grid; grid-template-columns: repeat(3,1fr); gap:14px; }
+.d-card{ padding:20px; border-top:3px solid; background:var(--panel); border-left:1px solid var(--line); border-right:1px solid var(--line); border-bottom:1px solid var(--line);}
+.d-card.warn{ border-top-color:#c9a227; }
+.d-card.demote{ border-top-color:#c07a2e; }
+.d-card.expel{ border-top-color:var(--rust); }
+.d-card h3{ font-family:'Oswald',sans-serif; font-size:14.5px; letter-spacing:0.05em; text-transform:uppercase; margin-bottom:8px;}
+.d-card p{ font-size:14px; color:var(--paper-dim);}
+.d-card ul{ margin-top:10px; padding-left:18px; font-size:13.5px; color:var(--paper-dim);}
+.d-card ul li{ margin-bottom:4px;}
+
+/* two-col simple */
+.twocol{ display:grid; grid-template-columns:1fr 1fr; gap:30px; }
+.list-plain{ list-style:none; }
+.list-plain li{
+  padding: 10px 0; border-top:1px solid var(--line); font-size:15.5px; color:var(--paper-dim);
+  display:flex; gap:10px;
+}
+.list-plain li:last-child{ border-bottom:1px solid var(--line);}
+.list-plain .mark{ color:var(--brass); flex-shrink:0; }
+.list-plain.bad .mark{ color: var(--rust); }
+
+/* discord channel map */
+.channel-map{ display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; }
+.channel{
+  background:var(--panel); border:1px solid var(--line); padding:16px 18px;
+  display:flex; gap:14px; align-items:flex-start;
+}
+.channel .glyph{ font-size:20px; }
+.channel h3{ font-family:'Oswald',sans-serif; font-size:13px; letter-spacing:0.04em; text-transform:uppercase; color:var(--brass); margin-bottom:4px; font-weight:600;}
+.channel p{ font-size:13.5px; color:var(--paper-dim); }
+
+/* code of conduct */
+.conduct-list{ counter-reset:c; display:grid; grid-template-columns: 1fr 1fr; gap: 4px 30px; }
+.conduct-item{
+  counter-increment:c;
+  display:flex; gap:14px; padding:12px 0; border-top:1px solid var(--line); align-items:baseline;
+}
+.conduct-item::before{
+  content: counter(c,decimal-leading-zero);
+  font-family:'Oswald',sans-serif; color:var(--brass-dim); font-size:12px; letter-spacing:0.05em; flex-shrink:0; width:24px;
+}
+.conduct-item span{ font-size:15px; color:var(--paper-dim); }
+
+/* objectives timeline */
+.timeline{ display:flex; flex-direction:column; gap:26px; }
+.tl-row{ display:grid; grid-template-columns:140px 1fr; gap:22px; }
+.tl-row .term{ font-family:'Oswald',sans-serif; font-size:12.5px; letter-spacing:0.06em; text-transform:uppercase; color:var(--brass); padding-top:3px;}
+.tl-row ul{ list-style:none; display:flex; flex-direction:column; gap:8px;}
+.tl-row li{ font-size:15.5px; color:var(--paper-dim); padding-left:16px; position:relative;}
+.tl-row li::before{ content:"—"; position:absolute; left:0; color:var(--brass-dim);}
+
+/* final word */
+.final{
+  text-align:center;
+  padding: 90px 0 60px 0;
+}
+.final .motto{
+  font-family:'Playfair Display', serif; font-style:italic; font-weight:700;
+  font-size: clamp(24px,4vw,34px);
+  color: var(--brass);
+  margin: 26px 0;
+  line-height:1.5;
+}
+.final .order-line{
+  font-family:'Oswald', sans-serif; letter-spacing:0.3em; text-transform:uppercase; font-size:13px; color:var(--paper-dim);
+  margin-top: 30px;
+}
+
+/* mobile nav toggle */
+.mobile-bar{ display:none; }
+
+@media (max-width: 900px){
+  .shell{ grid-template-columns: 1fr; }
+  .ledger{
+    position: sticky; top:0; height:auto; max-height:0; overflow:hidden;
+    border-right:none; border-bottom:1px solid var(--line);
+    padding: 0 20px; transition: max-height .3s ease;
+    background: var(--ink); z-index:5;
+  }
+  .ledger.open{ max-height: 70vh; overflow-y:auto; padding: 20px; }
+  .mobile-bar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 16px 20px; border-bottom:1px solid var(--line);
+    position:sticky; top:0; background:var(--ink); z-index:6;
+  }
+  .mobile-bar .name{ font-family:'Oswald',sans-serif; letter-spacing:0.05em; font-size:13px; color:var(--paper); text-transform:uppercase;}
+  .mobile-bar button{
+    background:none; border:1px solid var(--brass-dim); color:var(--brass); font-family:'Oswald',sans-serif;
+    font-size:11px; letter-spacing:0.05em; text-transform:uppercase; padding:7px 12px; cursor:pointer;
+  }
+  main{ padding: 0 22px 80px 22px; }
+  .pillars, .discipline-grid, .twocol, .channel-map, .conduct-list{ grid-template-columns: 1fr; }
+  .rank{ grid-template-columns: 44px 1fr; }
+  .rank .desc{ grid-column: 1 / -1; padding-left:0; margin-top:2px;}
+  .tl-row{ grid-template-columns: 1fr; }
+  .hero .stamp-ring{ display:none; }
+  .hero{ min-height:auto; padding: 50px 0 40px 0;}
+}
+</style>
+</head>
+<body>
+
+<div class="mobile-bar">
+  <span class="name">🥃 Peaky Blinders</span>
+  <button onclick="document.querySelector('.ledger').classList.toggle('open')">Índice</button>
+</div>
+
+<div class="shell">
+
+  <aside class="ledger">
+    <div class="ledger-brand">
+      <div class="badge">P</div>
+      <div>
+        <div class="name">Peaky Blinders</div>
+        <div class="sub">Dixon · Regulamento</div>
+      </div>
+    </div>
+    <nav class="toc" id="toc">
+      <a href="#intro"><span class="num">01</span>Introdução</a>
+      <a href="#principios"><span class="num">02</span>Princípios</a>
+      <a href="#hierarquia"><span class="num">03</span>Hierarquia</a>
+      <a href="#promocoes"><span class="num">04</span>Promoções</a>
+      <a href="#recrutamento"><span class="num">05</span>Recrutamento</a>
+      <a href="#disciplina"><span class="num">06</span>Disciplina</a>
+      <a href="#comunicacao"><span class="num">07</span>Comunicação</a>
+      <a href="#operacoes"><span class="num">08</span>Operações</a>
+      <a href="#diplomacia"><span class="num">09</span>Diplomacia</a>
+      <a href="#economia"><span class="num">10</span>Economia</a>
+      <a href="#representacao"><span class="num">11</span>Representação</a>
+      <a href="#vestuario"><span class="num">12</span>Vestuário</a>
+      <a href="#discord"><span class="num">13</span>Discord</a>
+      <a href="#confidencialidade"><span class="num">14</span>Confidencialidade</a>
+      <a href="#conflitos"><span class="num">15</span>Conflitos Internos</a>
+      <a href="#eventos"><span class="num">16</span>Eventos</a>
+      <a href="#objetivos"><span class="num">17</span>Objetivos</a>
+      <a href="#conduta"><span class="num">18</span>Código de Conduta</a>
+      <a href="#significado"><span class="num">19</span>Ser um Peaky</a>
+      <a href="#final"><span class="num">20</span>Palavra Final</a>
+    </nav>
+  </aside>
+
+  <main>
+
+    <section class="hero" id="intro">
+      <div class="stamp-ring"><div class="stamp-inner">By Order Of The Peaky Blinders</div></div>
+      <div class="eyebrow">Dixon · Manual Oficial</div>
+      <h1>Peaky<br><span>Blinders</span></h1>
+      <div class="tagline">"By Order of the Peaky Blinders."</div>
+      <p class="lede">A Peaky Blinders é uma organização criada para construir uma família forte, organizada e respeitada dentro do Dixon. Não procuramos quantidade — procuramos lealdade, respeito, inteligência, trabalho em equipa, organização, liderança e qualidade de RP. Ao entrares, o teu comportamento passa a representar todos os outros membros.</p>
+    </section>
+
+    <section class="block" id="principios">
+      <div class="block-head">
+        <div class="eyebrow">02 — Fundação</div>
+        <h2>Os Princípios da Família</h2>
+      </div>
+      <div class="pillars">
+        <div class="pillar"><div class="roman">I</div><h3>Família</h3><p>A família vem primeiro. Os membros devem ajudar-se e trabalhar em conjunto.</p></div>
+        <div class="pillar"><div class="roman">II</div><h3>Lealdade</h3><p>A confiança é conquistada através de ações. Informações internas não devem ser divulgadas fora da organização.</p></div>
+        <div class="pillar"><div class="roman">III</div><h3>Respeito</h3><p>Respeito pela liderança, pelos restantes membros, por outras organizações e pelos jogadores do servidor.</p></div>
+        <div class="pillar"><div class="roman">IV</div><h3>Disciplina</h3><p>Nenhum membro deve tomar decisões importantes que possam prejudicar a organização sem autorização.</p></div>
+        <div class="pillar"><div class="roman">V</div><h3>Profissionalismo</h3><p>Representar a Peaky Blinders significa agir de forma responsável.</p></div>
+        <div class="pillar"><div class="roman">VI</div><h3>RP</h3><p>Criar experiências divertidas e memoráveis. As regras do servidor estão sempre acima das regras internas.</p></div>
+      </div>
+    </section>
+
+    <section class="block" id="hierarquia">
+      <div class="block-head">
+        <div class="eyebrow">03 — Cadeia de Comando</div>
+        <h2>Hierarquia</h2>
+        <p class="desc">A Peaky Blinders possui uma estrutura definida, do Boss ao recruta.</p>
+      </div>
+      <div class="ladder">
+        <div class="rank lead"><div class="icon">👑</div><div class="title">Tommy Shelby<small>Boss</small></div><div class="desc">Líder máximo da organização. Responsável pelas decisões finais.</div></div>
+        <div class="rank lead"><div class="icon">🥃</div><div class="title">Arthur Shelby<small>Underboss</small></div><div class="desc">Segundo na hierarquia. Braço direito do Boss, responsável pela gestão diária da família.</div></div>
+        <div class="rank"><div class="icon">🔫</div><div class="title">John Shelby<small>Capitão</small></div><div class="desc">Responsável por liderar equipas e coordenar operações.</div></div>
+        <div class="rank"><div class="icon">💼</div><div class="title">Michael Gray<small>Conselheiro</small></div><div class="desc">Responsável pela diplomacia, negociações e relações externas.</div></div>
+        <div class="rank"><div class="icon">💰</div><div class="title">Polly Gray<small>Tesoureiro</small></div><div class="desc">Responsável pela gestão financeira da organização.</div></div>
+        <div class="rank"><div class="icon">🎩</div><div class="title">Charlie Strong<small>Veterano</small></div><div class="desc">Membro experiente que ajuda na formação e orientação dos membros.</div></div>
+        <div class="rank"><div class="icon">🕴️</div><div class="title">Peaky Blinder<small>Membro</small></div><div class="desc">Membro oficial da organização.</div></div>
+        <div class="rank"><div class="icon">🔰</div><div class="title">Shelby Associate<small>Recruta</small></div><div class="desc">Jogador em período de avaliação.</div></div>
+      </div>
+    </section>
+
+    <section class="block" id="promocoes">
+      <div class="block-head">
+        <div class="eyebrow">04 — Progresso</div>
+        <h2>Promoções</h2>
+        <p class="desc">As promoções não são baseadas em amizade. São baseadas em atividade, lealdade, inteligência, trabalho em equipa, experiência, confiança e qualidade de RP.</p>
+      </div>
+      <div class="progression">
+        <span class="step">🔰 Associate</span><span class="arrow">→</span>
+        <span class="step">🕴️ Peaky Blinder</span><span class="arrow">→</span>
+        <span class="step">🎩 Veteran</span><span class="arrow">→</span>
+        <span class="step">🔫 Capitão</span>
+      </div>
+      <p class="desc" style="margin-top:20px;">Os cargos de <strong style="color:var(--paper)">Conselheiro</strong> e <strong style="color:var(--paper)">Tesoureiro</strong> são especializados. Os cargos de <strong style="color:var(--paper)">Underboss</strong> e <strong style="color:var(--paper)">Boss</strong> são de liderança e não se obtêm apenas por tempo na organização.</p>
+    </section>
+
+    <section class="block" id="recrutamento">
+      <div class="block-head">
+        <div class="eyebrow">05 — Entrada</div>
+        <h2>Recrutamento</h2>
+        <p class="desc">Todos os candidatos passam por um processo de avaliação em cinco etapas.</p>
+      </div>
+      <div class="steps">
+        <div class="step-row"><div class="n">01</div><div><h3>Candidatura</h3><p>O candidato apresenta as suas informações.</p></div></div>
+        <div class="step-row"><div class="n">02</div><div><h3>Entrevista</h3><p>Um responsável conversa com o candidato.</p></div></div>
+        <div class="step-row"><div class="n">03</div><div><h3>Associate</h3><p>O candidato entra oficialmente em período de avaliação.</p></div></div>
+        <div class="step-row"><div class="n">04</div><div><h3>Avaliação</h3><p>São avaliados: atividade, RP, comunicação, lealdade, comportamento, trabalho em equipa e respeito.</p></div></div>
+        <div class="step-row"><div class="n">05</div><div><h3>Decisão</h3><p>O candidato torna-se Peaky Blinder ✅ ou é recusado ❌.</p></div></div>
+      </div>
+    </section>
+
+    <section class="block" id="disciplina">
+      <div class="block-head">
+        <div class="eyebrow">06 — Consequências</div>
+        <h2>Disciplina</h2>
+        <p class="desc">Todos os membros estão sujeitos às regras internas. Qualquer punição deve ser proporcional à situação.</p>
+      </div>
+      <div class="discipline-grid">
+        <div class="d-card warn"><h3>🟡 Advertência</h3><p>Para infrações menores.</p></div>
+        <div class="d-card demote"><h3>🟠 Rebaixamento</h3><p>Para infrações graves ou repetidas.</p></div>
+        <div class="d-card expel">
+          <h3>🔴 Expulsão</h3>
+          <p>Para situações muito graves, tais como:</p>
+          <ul>
+            <li>Traição deliberada da organização</li>
+            <li>Divulgação de informações internas</li>
+            <li>Prejudicar intencionalmente a família</li>
+            <li>Desrespeito grave e repetido</li>
+            <li>Uso da organização para benefício pessoal</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="comunicacao">
+      <div class="block-head">
+        <div class="eyebrow">07 — Durante Atividades</div>
+        <h2>Comunicação</h2>
+      </div>
+      <ul class="list-plain">
+        <li><span class="mark">✓</span>Mantém a comunicação clara.</li>
+        <li><span class="mark">✓</span>Evita falar por cima dos outros.</li>
+        <li><span class="mark">✓</span>Segue as instruções do responsável.</li>
+        <li><span class="mark">✓</span>Comunica problemas.</li>
+        <li><span class="mark">✓</span>Não cria confusão desnecessária.</li>
+        <li><span class="mark">✓</span>Durante operações, o responsável pela equipa possui autoridade operacional.</li>
+      </ul>
+    </section>
+
+    <section class="block" id="operacoes">
+      <div class="block-head">
+        <div class="eyebrow">08 — No Terreno</div>
+        <h2>Operações</h2>
+        <p class="desc">Organizadas pela liderança e pelos Capitães. Antes de cada operação devem ser definidos:</p>
+      </div>
+      <div class="pillars" style="grid-template-columns:repeat(5,1fr);">
+        <div class="pillar" style="text-align:center;"><h3 style="margin-top:0;">📅 Data</h3></div>
+        <div class="pillar" style="text-align:center;"><h3 style="margin-top:0;">🕐 Hora</h3></div>
+        <div class="pillar" style="text-align:center;"><h3 style="margin-top:0;">📍 Local</h3></div>
+        <div class="pillar" style="text-align:center;"><h3 style="margin-top:0;">🎩 Responsável</h3></div>
+        <div class="pillar" style="text-align:center;"><h3 style="margin-top:0;">🎯 Objetivo</h3></div>
+      </div>
+      <p class="desc" style="margin-top:22px; color:var(--rust); font-weight:600;">⚠️ As regras do servidor têm sempre prioridade absoluta sobre qualquer operação interna.</p>
+    </section>
+
+    <section class="block" id="diplomacia">
+      <div class="block-head">
+        <div class="eyebrow">09 — Relações Externas</div>
+        <h2>Diplomacia</h2>
+        <p class="desc">Os membros não devem iniciar conflitos diplomáticos em nome da organização sem autorização. Questões diplomáticas seguem para o Conselheiro ou a liderança.</p>
+      </div>
+      <div class="pillars" style="grid-template-columns:repeat(3,1fr);">
+        <div class="pillar" style="text-align:center; border-top:3px solid #4caf50;"><h3 style="margin-top:0;">🟢 Allied</h3><p>Aliado</p></div>
+        <div class="pillar" style="text-align:center; border-top:3px solid #8a8377;"><h3 style="margin-top:0;">⚪ Neutral</h3><p>Neutro</p></div>
+        <div class="pillar" style="text-align:center; border-top:3px solid var(--rust);"><h3 style="margin-top:0;">🔴 Rival</h3><p>Rival</p></div>
+      </div>
+    </section>
+
+    <section class="block" id="economia">
+      <div class="block-head">
+        <div class="eyebrow">10 — Fundo Comum</div>
+        <h2>Economia</h2>
+        <p class="desc">A organização poderá possuir um fundo comum para objetivos da família. Movimentações importantes devem ser registadas de forma responsável.</p>
+      </div>
+      <div class="pillar" style="max-width:520px;">
+        <h3 style="margin-top:0;">Registo de Movimento</h3>
+        <ul class="list-plain" style="margin-top:6px;">
+          <li><span class="mark">•</span>Data</li>
+          <li><span class="mark">•</span>Entrada</li>
+          <li><span class="mark">•</span>Despesa</li>
+          <li><span class="mark">•</span>Motivo</li>
+          <li><span class="mark">•</span>Responsável</li>
+          <li><span class="mark">•</span>Saldo</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="block" id="representacao">
+      <div class="block-head">
+        <div class="eyebrow">11 — Imagem</div>
+        <h2>Representação da Família</h2>
+        <p class="desc">Quando identificado como membro, estás a representar a organização.</p>
+      </div>
+      <div class="twocol">
+        <div>
+          <div class="eyebrow" style="color:var(--rust); margin-bottom:10px;">Evita</div>
+          <ul class="list-plain bad">
+            <li><span class="mark">✕</span>Criar conflitos desnecessários</li>
+            <li><span class="mark">✕</span>Insultar outros jogadores</li>
+            <li><span class="mark">✕</span>Prejudicar deliberadamente a organização</li>
+            <li><span class="mark">✕</span>Usar o nome da Peaky para benefício pessoal</li>
+            <li><span class="mark">✕</span>Divulgar informações internas</li>
+          </ul>
+        </div>
+        <div>
+          <div class="eyebrow" style="margin-bottom:10px;">Procura</div>
+          <ul class="list-plain">
+            <li><span class="mark">✓</span>Bom RP</li>
+            <li><span class="mark">✓</span>Respeito</li>
+            <li><span class="mark">✓</span>Comunicação</li>
+            <li><span class="mark">✓</span>Trabalho em equipa</li>
+            <li><span class="mark">✓</span>Profissionalismo</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="vestuario">
+      <div class="block-head">
+        <div class="eyebrow">12 — Identidade Visual</div>
+        <h2>Código de Vestuário</h2>
+        <p class="desc">Sempre que possível, os membros devem utilizar uma aparência inspirada no estilo clássico da Peaky Blinders. Em eventos oficiais, a liderança poderá definir um código específico.</p>
+      </div>
+      <div class="pillars" style="grid-template-columns:repeat(4,1fr);">
+        <div class="pillar" style="text-align:center;">🎩<p style="margin-top:8px;">Flat cap</p></div>
+        <div class="pillar" style="text-align:center;">🕴️<p style="margin-top:8px;">Roupa formal</p></div>
+        <div class="pillar" style="text-align:center;">🥃<p style="margin-top:8px;">Estilo clássico</p></div>
+        <div class="pillar" style="text-align:center;">🎩<p style="margin-top:8px;">Aparência organizada</p></div>
+      </div>
+    </section>
+
+    <section class="block" id="discord">
+      <div class="block-head">
+        <div class="eyebrow">13 — Quartel-General Digital</div>
+        <h2>Discord</h2>
+        <p class="desc">Cada categoria possui uma finalidade. Usa cada canal para o propósito correspondente.</p>
+      </div>
+      <div class="channel-map">
+        <div class="channel"><span class="glyph">👑</span><div><h3>The Shelby Estate</h3><p>Liderança.</p></div></div>
+        <div class="channel"><span class="glyph">🥃</span><div><h3>The Family</h3><p>Comunicação geral.</p></div></div>
+        <div class="channel"><span class="glyph">🔰</span><div><h3>Recruitment</h3><p>Candidaturas e avaliação.</p></div></div>
+        <div class="channel"><span class="glyph">💼</span><div><h3>Business</h3><p>Economia e negócios.</p></div></div>
+        <div class="channel"><span class="glyph">🤝</span><div><h3>Diplomacy</h3><p>Relações externas.</p></div></div>
+        <div class="channel"><span class="glyph">⚔️</span><div><h3>Operations</h3><p>Operações e eventos.</p></div></div>
+        <div class="channel"><span class="glyph">🎩</span><div><h3>Training</h3><p>Formação.</p></div></div>
+        <div class="channel"><span class="glyph">📰</span><div><h3>Peaky Media</h3><p>Conteúdo e divulgação.</p></div></div>
+        <div class="channel"><span class="glyph">🍺</span><div><h3>The Garrison</h3><p>Convívio.</p></div></div>
+        <div class="channel"><span class="glyph">🗄️</span><div><h3>Archives</h3><p>História e registos.</p></div></div>
+      </div>
+    </section>
+
+    <section class="block" id="confidencialidade">
+      <div class="block-head">
+        <div class="eyebrow">14 — Segredo da Família</div>
+        <h2>Confidencialidade</h2>
+        <p class="desc">Informações internas devem permanecer dentro da organização. A divulgação não autorizada poderá resultar em punição.</p>
+      </div>
+      <div class="pillars" style="grid-template-columns:repeat(4,1fr);">
+        <div class="pillar" style="text-align:center; padding:14px;">Estratégias</div>
+        <div class="pillar" style="text-align:center; padding:14px;">Decisões da liderança</div>
+        <div class="pillar" style="text-align:center; padding:14px;">Informações financeiras</div>
+        <div class="pillar" style="text-align:center; padding:14px;">Candidaturas</div>
+        <div class="pillar" style="text-align:center; padding:14px;">Discussões internas</div>
+        <div class="pillar" style="text-align:center; padding:14px;">Operações</div>
+        <div class="pillar" style="text-align:center; padding:14px;">Negociações</div>
+        <div class="pillar" style="text-align:center; padding:14px;">Informações sobre membros</div>
+      </div>
+    </section>
+
+    <section class="block" id="conflitos">
+      <div class="block-head">
+        <div class="eyebrow">15 — Resolução</div>
+        <h2>Conflitos Internos</h2>
+        <p class="desc">Problemas entre membros devem ser comunicados à liderança. Não transformar discussões pessoais em problemas da organização.</p>
+      </div>
+      <div class="progression">
+        <span class="step">Membro</span><span class="arrow">→</span>
+        <span class="step">Capitão</span><span class="arrow">→</span>
+        <span class="step">Underboss</span><span class="arrow">→</span>
+        <span class="step">Boss</span>
+      </div>
+      <p class="desc" style="margin-top:16px;">Dependendo da situação, o Conselheiro ou outro responsável poderá participar na resolução.</p>
+    </section>
+
+    <section class="block" id="eventos">
+      <div class="block-head">
+        <div class="eyebrow">16 — Momentos da Família</div>
+        <h2>Eventos</h2>
+        <p class="desc">A organização poderá organizar eventos internos e participar em eventos do servidor, para aumentar a atividade e criar momentos memoráveis.</p>
+      </div>
+      <div class="pillars" style="grid-template-columns:repeat(5,1fr);">
+        <div class="pillar" style="text-align:center; padding:14px;">🥃 Reuniões</div>
+        <div class="pillar" style="text-align:center; padding:14px;">🎩 Encontros</div>
+        <div class="pillar" style="text-align:center; padding:14px;">🏆 Competições</div>
+        <div class="pillar" style="text-align:center; padding:14px;">🚗 Comboios</div>
+        <div class="pillar" style="text-align:center; padding:14px;">📸 Sessões fotográficas</div>
+      </div>
+    </section>
+
+    <section class="block" id="objetivos">
+      <div class="block-head">
+        <div class="eyebrow">17 — O Caminho</div>
+        <h2>Objetivos da Organização</h2>
+      </div>
+      <div class="timeline">
+        <div class="tl-row">
+          <div class="term">Curto Prazo</div>
+          <ul>
+            <li>Construir uma família ativa</li>
+            <li>Recrutar membros de qualidade</li>
+            <li>Criar uma identidade própria</li>
+            <li>Fazer os primeiros contactos</li>
+          </ul>
+        </div>
+        <div class="tl-row">
+          <div class="term">Médio Prazo</div>
+          <ul>
+            <li>Desenvolver a economia</li>
+            <li>Criar alianças</li>
+            <li>Participar em eventos</li>
+            <li>Aumentar a reputação</li>
+          </ul>
+        </div>
+        <div class="tl-row">
+          <div class="term">Longo Prazo</div>
+          <ul>
+            <li>Tornar a Peaky Blinders uma das organizações mais reconhecidas do Dixon — não através de quantidade, mas de reputação, organização, atividade e RP.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="conduta">
+      <div class="block-head">
+        <div class="eyebrow">18 — Compromisso</div>
+        <h2>Código de Conduta</h2>
+        <p class="desc">Todo membro concorda em:</p>
+      </div>
+      <div class="conduct-list">
+        <div class="conduct-item"><span>Respeitar a hierarquia.</span></div>
+        <div class="conduct-item"><span>Respeitar os restantes membros.</span></div>
+        <div class="conduct-item"><span>Respeitar as regras do Dixon.</span></div>
+        <div class="conduct-item"><span>Proteger a reputação da organização.</span></div>
+        <div class="conduct-item"><span>Não divulgar informações internas.</span></div>
+        <div class="conduct-item"><span>Não iniciar grandes conflitos sem autorização.</span></div>
+        <div class="conduct-item"><span>Cumprir as funções do seu cargo.</span></div>
+        <div class="conduct-item"><span>Ajudar os restantes membros.</span></div>
+        <div class="conduct-item"><span>Manter uma atitude positiva.</span></div>
+        <div class="conduct-item"><span>Representar a Peaky Blinders com orgulho.</span></div>
+      </div>
+    </section>
+
+    <section class="block" id="significado">
+      <div class="block-head">
+        <div class="eyebrow">19 — Além do Cargo</div>
+        <h2>O Que Significa Ser um Peaky Blinder?</h2>
+      </div>
+      <p style="max-width:640px; font-size:17px; color:var(--paper-dim);">
+        Não significa simplesmente possuir um cargo. Significa fazer parte de uma família. Significa estar presente quando a organização precisa. Significa ajudar os outros. Significa respeitar quem está acima e quem está abaixo de ti na hierarquia. Significa compreender que uma decisão individual pode afetar todos. E significa carregar o nome <strong style="color:var(--brass)">Peaky Blinders</strong> com orgulho.
+      </p>
+    </section>
+
+    <section class="final" id="final">
+      <div class="eyebrow">20 — A Palavra Final</div>
+      <p style="max-width:520px; margin:20px auto 0 auto; color:var(--paper-dim);">A organização pode crescer. O dinheiro pode aumentar. O número de membros pode subir. As alianças podem mudar. Os rivais podem aparecer.</p>
+      <div class="motto">🥃 A família vem primeiro.</div>
+      <div class="chain-divider" style="max-width:200px; margin:0 auto;">
+        <div class="rule"></div><div class="link"></div><div class="rule" style="background:linear-gradient(270deg, var(--brass-dim), transparent);"></div>
+      </div>
+      <p class="order-line">One Family · One Name · One Order</p>
+      <p class="order-line" style="margin-top:10px; color:var(--brass);">By Order of the Peaky Blinders</p>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  // active link highlight on scroll
+  const links = document.querySelectorAll('#toc a');
+  const sections = Array.from(links).map(l => document.querySelector(l.getAttribute('href')));
+  function onScroll(){
+    let idx = 0;
+    const y = window.scrollY + 120;
+    sections.forEach((s,i)=>{ if(s && s.offsetTop <= y) idx = i; });
+    links.forEach(l=>l.classList.remove('active'));
+    if(links[idx]) links[idx].classList.add('active');
+  }
+  window.addEventListener('scroll', onScroll);
+  onScroll();
+
+  // close mobile menu after clicking a link
+  links.forEach(l=>l.addEventListener('click', ()=>{
+    document.querySelector('.ledger').classList.remove('open');
+  }));
+</script>
+
+</body>
+</html>
